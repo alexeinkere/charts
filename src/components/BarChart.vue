@@ -23,22 +23,13 @@
       param_1: Number,
       param_2: Number
     },
-    updated() {
-      console.log("updated");
-    },
     computed: {
-      key_1: function() {
-        return this.param_1
-      },
-        key_2: function() {
-        return this.param_2
-      },
       chartData() { 
         return {
-          labels: this.response.map(a => a[Object.keys(a)[this.key_1]]),
+          labels: this.response.map(a => a[Object.keys(a)[this.param_1]]),
           datasets: [{ 
             label: this.label,
-            data: this.response.map(a => a[Object.keys(a)[this.key_2]]),
+            data: this.response.map(a => a[Object.keys(a)[this.param_2]]),
             backgroundColor: [
                 'rgba(' + this.color + ')'
             ]

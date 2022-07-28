@@ -1,9 +1,54 @@
 <template>
-	<div class="flex flex-wrap w-full">
-		<BarChart class="w-full md:w-1/2 p-8" :response="excel_data" :label="excel_label_km" :param_1="0" :param_2="2" :color="'255, 99, 132, 0.5'" />
-		<BarChart class="w-full md:w-1/2 p-8" :response="excel_data" :label="excel_label_euro" :param_1="0" :param_2="3" :color="'99, 132, 255, 0.5'" />
+	<div class="mb-32">
+		<div class="flex flex-wrap m-4 justify-end md:justify-start">
+			<select v-model="key_1" class="border-gray-300 rounded-md shadow-sm focus:outline-none md:mr-4 w-full md:w-max mb-4 md:mb-0">
+				<option 
+					v-for="(label, index) in excel.labels" 
+					:key="index" 
+					:value="index">
+					{{ label }}
+				</option>
+			</select>
+
+			<select v-model="key_2" class="border-gray-300 rounded-md shadow-sm focus:outline-none md:mr-4 w-full md:w-max mb-4 md:mb-0">
+				<option 
+					v-for="(label, index) in excel.labels" :disabled="label == 'Date'" 
+					:key="index" 
+					:value="index">
+					{{ label }}
+				</option>
+			</select>
+
+			<button 
+				class="flex justify-center items-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none disabled:bg-gray-600"
+				v-on:click="addChart()" 
+				:disabled="charts.length > 3">
+				Créer une graphe
+			</button>
+		</div>
+
+		<div class="flex flex-wrap w-full">
+			<div 
+				class="w-full md:w-1/2 relative"
+				v-for="(chart, index) in charts" 
+				:key="index">
+				<BarChart
+					class="w-full p-8" 
+					:response="excel.data" 
+					:label="excel.labels[chart.value_2]" 
+					:param_1="chart.value_1" 
+					:param_2="excel.labels.indexOf(excel.labels[chart.value_2])" 
+					:color="'255, 132, 99, 0.5'" />
+				<div 
+					class="absolute top-8 right-4 text-white bg-indigo-600 hover:bg-indigo-700 p-2 rounded-full flex justify-center items-center w-10 h-10 cursor-pointer"
+					v-on:click="deleteChart(index)">
+					<i class="text-lg fa-solid fa-trash-can"></i>
+				</div>
+			</div>
+		</div>		
 	</div>
 </template>
+
 
 
 <script>
@@ -17,19 +62,36 @@
 		},
 		data() {
 			return {
-				excel_data: [],
-				excel_label_km: "",
-				excel_label_euro: ""
+				charts:  [{
+					value_1: 0,
+					value_2: 3
+				}],
+				key_1: "0",
+				key_2: "1",
+				excel: {
+					data: [],
+					labels: []
+				}
 			}
 		},
 		mounted() {
 				axios
 				.get("https://opensheet.elk.sh/1a2yS9TPY41GozC2RsiwIWvg-d3K4MksKZToq5opj-D8/Sheet1")
 				.then(response => {
-						this.excel_data = response.data
-						this.excel_label_km = Object.keys(this.excel_data[0])[2]
-						this.excel_label_euro = Object.keys(this.excel_data[0])[3]
+						this.excel.data = response.data
+						this.excel.labels = Object.keys(this.excel.data[0])
 				});
+		},
+		methods: {
+			addChart: function() {
+				this.charts.push({
+					value_1: this.key_1,
+					value_2: this.key_2
+				})
+			},
+			deleteChart: function(i) {
+				this.charts.splice(i, 1);
+			}
 		}
 	}
 </script>

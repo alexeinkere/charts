@@ -3,7 +3,7 @@
     <div v-on:click="togglePopup()" class="fixed top-0 bottom-0 left-0 right-0 bg-black opacity-50 cursor-pointer z-10" v-bind:class="{ hidden: !showPopup }"></div>
 
     <div class="absolute top-1/2 left-1/2 -translate-x-2/4 -translate-y-2/4 z-20" v-bind:class="{ hidden: !showPopup }">
-      <div v-on:click="togglePopup()" class="absolute top-4 right-4 ">
+      <div v-on:click="togglePopup()" class="absolute top-4 right-4">
         <i  class="text-2xl cursor-pointer fa-solid fa-xmark"></i>
       </div>
       
