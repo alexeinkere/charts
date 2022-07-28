@@ -9,9 +9,13 @@
             <img class="h-10 w-auto" src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white" alt="" />
           </a>
           <div class="hidden ml-10 space-x-8 lg:block">
-            <a v-for="link in navigation" :key="link.name" :href="link.href" class="text-base font-medium text-white hover:text-indigo-50">
+            <router-link 
+              class="text-base font-medium text-white hover:text-indigo-50"
+              v-for="link in navigation" 
+              :key="link.name" 
+              :to="link.href">
               {{ link.name }}
-            </a>
+            </router-link>
           </div>
         </div>
         <div class="ml-10 space-x-4">
@@ -19,9 +23,13 @@
         </div>
       </div>
       <div class="py-4 flex flex-wrap justify-center space-x-6 lg:hidden">
-        <a v-for="link in navigation" :key="link.name" :href="link.href" class="text-base font-medium text-white hover:text-indigo-50">
+        <router-link 
+          class="text-base font-medium text-white hover:text-indigo-50"
+          v-for="link in navigation" 
+          :key="link.name" 
+          :to="link.href">
           {{ link.name }}
-        </a>
+        </router-link>
       </div>
     </nav>
   </header>
