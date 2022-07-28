@@ -40,7 +40,7 @@
     },
     methods: {
       openForm: function() {
-        this.$root.$refs.AppPopup.openPopup()
+        this.$root.$refs.AppPopup.togglePopup()
       }
     }
   }

@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <footer class="bg-white absolute bottom-0 w-full">
+  <footer class="bg-white static md:absolute bottom-0 w-full">
     <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
       <div class="flex justify-center space-x-6 md:order-2">
         <a v-for="item in navigation" :key="item.name" :href="item.href" target="_blank" class="text-gray-400 hover:text-gray-500">
