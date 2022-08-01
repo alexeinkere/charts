@@ -54,9 +54,6 @@
         ]
       }
     },
-    created() {
-      console.log(process.env.VUE_APP_DATABASE_URL + '/api/auth/local/register')
-    },  
     computed: {
       user: {
         get(){
