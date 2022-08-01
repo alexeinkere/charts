@@ -43,7 +43,7 @@
       async register(e) {
         e.preventDefault()
         axios
-          .post('http://localhost:1337/api/auth/local/register', {
+          .post(process.env.VUE_APP_DATABASE_URL + '/api/auth/local/register', {
             username: this.username,
             email: this.email,
             password: this.password,

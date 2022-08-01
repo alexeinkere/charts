@@ -36,7 +36,7 @@
       async login(e) {
         e.preventDefault()
         axios
-          .post('http://localhost:1337/api/auth/local', {
+          .post(process.env.VUE_APP_DATABASE_URL + '/api/auth/local', {
             identifier: this.email,
             password: this.password,
           })
