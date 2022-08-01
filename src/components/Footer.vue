@@ -5,11 +5,11 @@
       <div class="flex justify-center space-x-6 md:order-2">
         <a v-for="item in navigation" :key="item.name" :href="item.href" target="_blank" class="text-gray-400 hover:text-gray-500">
           <span class="sr-only">{{ item.name }}</span>
-          <p v-html="item.icon"></p>
+          <p class="text-xl" v-html="item.icon"></p>
         </a>
       </div>
       <div class="mt-8 md:mt-0 md:order-1">
-        <p class="text-center text-base text-gray-400">&copy; 2022 Quere Alexandre. All rights reserved.</p>
+        <p class="text-center text-lg text-gray-400">&copy; 2022 Quere Alexandre. All rights reserved.</p>
       </div>
     </div>
   </footer>

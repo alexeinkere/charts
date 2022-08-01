@@ -1,5 +1,5 @@
-import Charts from "./components/Charts.vue"
-import Stats from "./components/Statistics.vue"
+import Charts from "./pages/Charts.vue"
+import Stats from "./pages/Statistics.vue"
 
 export default [
 	{

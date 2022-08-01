@@ -1,5 +1,5 @@
 <template>
-	<div class="mb-32">
+	<div class="mb-32 p-8">
 		<div class="flex flex-wrap m-4 justify-end md:justify-start">
 			<select v-model="key_1" class="border-gray-300 rounded-md shadow-sm focus:outline-none md:mr-4 w-full md:w-max mb-4 md:mb-0">
 				<option 
@@ -40,7 +40,7 @@
 					:param_2="excel.labels.indexOf(excel.labels[chart.value_2])" 
 					:color="'255, 132, 99, 0.5'" />
 				<div 
-					class="absolute top-8 right-4 text-white bg-indigo-600 hover:bg-indigo-700 p-2 rounded-full flex justify-center items-center w-10 h-10 cursor-pointer"
+					class="absolute top-10 right-4 text-white bg-indigo-600 hover:bg-indigo-700 p-2 rounded-full flex justify-center items-center w-10 h-10 cursor-pointer"
 					v-on:click="deleteChart(index)">
 					<i class="text-lg fa-solid fa-trash-can"></i>
 				</div>
@@ -53,7 +53,7 @@
 
 <script>
 	import axios from 'axios';
-	import BarChart from './BarChart';
+	import BarChart from '../components/BarChart';
 
 	export default {
 		name: "AppCharts",

@@ -8,16 +8,16 @@
 </template>
 
 <script>
-import Header from './components/Header'
-import Popup from './components/Popup'
-import Footer from './components/Footer'
+  import Header from './components/Header'
+  import Popup from './components/Popup'
+  import Footer from './components/Footer'
 
-export default {
-  name: 'App',
-  components: {
-    Header,
-    Popup,
-    Footer
+  export default {
+    name: 'App',
+    components: {
+      Header,
+      Popup,
+      Footer
+    }
   }
-}
 </script>

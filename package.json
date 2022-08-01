@@ -18,6 +18,7 @@
     "vue": "^2.6.14",
     "vue-chartjs": "^4.1.1",
     "vue-google-oauth2": "^1.5.8",
+    "vue-progress-path": "^0.0.2",
     "vue-router": "2",
     "vuex": "^4.0.2"
   },
