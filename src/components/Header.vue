@@ -18,19 +18,31 @@
           </div>
         </div>
         <div class="ml-10 space-x-4">
-          <p class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75 cursor-pointer"
-            v-if="!user" v-on:click="openForm('FormSignin')" > Sign in </p>
-          <p class="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50 cursor-pointer"
-            v-if="!user" v-on:click="openForm('FormSignup')" > Sign up </p>
-          <p class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75 cursor-pointer"
-            v-if="user" v-on:click="openForm('FormData')"> Ajouter une donnée </p>            
-          <p class="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50 cursor-pointer"
-            v-if="user" v-on:click="logout()" > Log out </p>
+          <p class="inline-block bg-indigo-500 py-2 px-4 rounded-md font-medium text-white hover:bg-opacity-75 cursor-pointer"
+            v-if="!user" v-on:click="openForm('FormSignin')" >Sign in</p>
+          <p class="inline-block bg-white py-2 px-4 rounded-md font-medium text-indigo-600 hover:bg-indigo-50 cursor-pointer"
+            v-if="!user" v-on:click="openForm('FormSignup')" >Sign up</p>
+          <p class="inline-block bg-indigo-500 py-2 px-4 rounded-md font-medium text-white hover:bg-opacity-75 cursor-pointer"
+            v-if="user" v-on:click="openForm('FormData')">Ajouter une donnée</p>            
+
+            
+
+          <div class="relative inline" 
+            v-if="user">
+              <button class="peer inline-block bg-indigo-500 py-2 px-4 rounded-md hover:rounded-b-none font-medium text-white hover:bg-opacity-75 cursor-pointer">
+                {{ userConnected.username }}
+              </button>
+              <div class="rounded-b-md absolute right-0 hidden peer-hover:flex hover:flex w-full flex-col bg-white drop-shadow-lg">
+                <p class="inline-block bg-white py-2 px-4 font-medium text-indigo-600 hover:bg-indigo-50 cursor-pointer"
+                  v-if="user" v-on:click="logout()" >Log out</p>
+              </div>
+          </div>
+
         </div>
       </div>
       <div class="py-4 flex flex-wrap justify-center space-x-6 lg:hidden">
         <router-link 
-          class="text-base font-medium text-white hover:text-indigo-50"
+          class="font-medium text-white hover:text-indigo-50"
           v-for="link in navigation" 
           :key="link.name" 
           :to="link.href">
@@ -42,7 +54,8 @@
 </template>
 
 <script>
- import store from '../store/store'
+  import store from '../store/store'
+	import axios from 'axios';
 
   export default {
     name: "AppHeader",
@@ -51,15 +64,32 @@
         navigation: [
           { name: 'Graphiques', href: '/' },
           { name: 'Statistiques', href: '/stats' }
-        ]
+        ],
+        userConnected: {}
       }
+    },
+    mounted() {
+			axios
+        .get(process.env.VUE_APP_DATABASE_URL +  "/api/users/me", {
+          headers: { 
+            'Authorization': 'Bearer ' + this.jwt
+          }
+        })
+        .then(response => {
+          this.userConnected = response.data
+        })
     },
     computed: {
       user: {
         get(){
           return store.state.user
         }
-      }
+      },
+      jwt: {
+        get(){
+          return store.state.jwt
+        }
+      },	
     },
     methods: {
       openForm: function(form) {

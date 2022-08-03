@@ -50,7 +50,6 @@
           })
           .then(response => {
             store.commit('logged', response.data)
-            //this.$root.$refs.AppPopup.togglePopup()
             location.reload();
           })
           .catch(error => {

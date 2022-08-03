@@ -29,7 +29,7 @@
         email: '',
         password: '',
         error: false,
-        errorMsg: `An error occurred, please try again`
+        errorMsg: `An error occurred, please try again`,
       }
     },
     methods: {      
@@ -41,8 +41,8 @@
             password: this.password,
           })
           .then(response => {
-            store.commit('logged', response.data)
-            //this.$root.$refs.AppPopup.togglePopup()
+            store.commit('saveDataUser', response.data.user)
+            store.commit('saveJWT', response.data.jwt)
             location.reload();
           })
           .catch(error => {
