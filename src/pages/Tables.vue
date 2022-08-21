@@ -26,7 +26,7 @@
           </thead>
           <tbody class="bg-white">
             <tr :class="index % 2 === 0 ? undefined : 'bg-gray-50'"
-            v-for="(row, index) in tables[tableIndex].donnees" :key="index">
+            v-for="(row, index) in tableSelected.donnees" :key="index">
               <td class="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">{{ row[Object.keys(row)[0]] }}</td>
               <td class="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">{{ row[Object.keys(row)[1]] }}</td>
               <td class="whitespace-nowrap px-3 py-4 text-center text-sm text-gray-500">{{ row[Object.keys(row)[2]] }}</td>
@@ -52,9 +52,10 @@
 		name: "AppTables",
 		data() {
 			return {
+        labels: [],
         tables: [],
+        tableSelected: [],
         tableIndex: 0,
-				labels: [],
 			}
 		},
     mounted() {
@@ -67,6 +68,8 @@
         .then(response => {
           this.tables = response.data.tables
 					this.labels = Object.keys(this.tables[0].donnees[0])
+          this.tableSelected = this.tables[this.tableIndex]
+          console.log(this.tableSelected)
         })      
 		},
 		computed: {
@@ -79,8 +82,16 @@
 		},
     methods: {
       deleteRow: function(i) {
-				//this.tables[this.tableIndex].splice(i, 1)
-        console.log(i)
+				this.tableSelected.donnees.splice(i, 1)
+        axios
+          .put(process.env.VUE_APP_DATABASE_URL +  "/api/tables/" + this.tableSelected.id, {
+            "data": {
+              "donnees": this.tableSelected.donnees
+            },
+          })
+          .then(response => {
+            console.log(response)
+          })          
 			}
     }  
 	}
