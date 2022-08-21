@@ -1,27 +1,15 @@
 import Vuex from 'vuex'
 
 const state = {
-  user: window.localStorage.getItem('user'),
-  charts: window.localStorage.getItem('charts'),
+  user: JSON.parse(window.localStorage.getItem('user')),
+  charts: JSON.parse(window.localStorage.getItem('charts')),
   jwt: window.localStorage.getItem('jwt')
-}
-
-const getters = {
-  user: (state) => {
-    return state.user
-  },
-  charts: (state) => {
-    return state.charts
-  },
-  jwt: (state) => {
-    return state.jwt
-  }
 }
 
 const mutations = {
   saveDataUser: (state, user) => {
     state.user = user
-    window.localStorage.setItem('user', user)
+    window.localStorage.setItem('user', JSON.stringify(user))
   },
   saveJWT: (state, jwt) => {
     state.jwt = jwt
@@ -30,15 +18,17 @@ const mutations = {
   logout: () => {
     window.localStorage.removeItem('user')
     window.localStorage.removeItem('jwt')
+    state.user = null
+    state.jwt = null
   },
-  updateChart: (charts) => {
-    window.localStorage.setItem('charts', charts)
+  updateChart: (state, charts) => {
+    state.charts = charts
+    window.localStorage.setItem('charts', JSON.stringify(charts))
   },
 }
 
 let store =  new Vuex.Store({
   state: state,
-  getters: getters,
   mutations: mutations,
 })
 

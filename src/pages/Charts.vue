@@ -5,6 +5,7 @@
 			<select v-model="key_1" class="border-gray-300 rounded-md shadow-sm focus:outline-none md:mr-4 w-full md:w-max mb-4 md:mb-0">
 				<option 
 					v-for="(label, index) in labels" 
+					:disabled="index == key_2" 
 					:key="index" 
 					:value="index">
 					{{ label }}
@@ -13,7 +14,8 @@
 
 			<select v-model="key_2" class="border-gray-300 rounded-md shadow-sm focus:outline-none md:mr-4 w-full md:w-max mb-4 md:mb-0">
 				<option 
-					v-for="(label, index) in labels" :disabled="label == 'Date'" 
+					v-for="(label, index) in labels"
+					:disabled="index == 0 || index == key_1" 
 					:key="index" 
 					:value="index">
 					{{ label }}
@@ -35,7 +37,7 @@
 				:key="index">
 				<BarChart
 					class="w-full p-8" 
-					:response="excel.data" 
+					:response="data" 
 					:label="labels[chart.value_2]" 
 					:param_1="chart.value_1" 
 					:param_2="labels.indexOf(labels[chart.value_2])" 
@@ -50,7 +52,7 @@
 	</div>
 	<div class="mb-32 p-8"
 		v-else>
-		Oui
+		Home
 	</div>	
 </template>
 
@@ -68,64 +70,51 @@
 		},
 		data() {
 			return {
-				charts:  [{
-					value_1: 0,
-					value_2: 3
-				}],
 				key_1: "0",
 				key_2: "1",
-				excel: {
-					data: [],
-					labels: []
-				},
-				labels: []
+				data: [],
+				labels: [],
+			}
+		},
+		created() {
+			if(store.state.charts == null) {
+				store.commit('updateChart', [])
 			}
 		},
 		mounted() {
 			axios
-				.get("https://opensheet.elk.sh/1a2yS9TPY41GozC2RsiwIWvg-d3K4MksKZToq5opj-D8/Sheet1")
-				.then(response => {
-						this.excel.data = response.data
-						this.labels = Object.keys(this.excel.data[0])
-				});
-
-			axios
-				.get(process.env.VUE_APP_DATABASE_URL +  "/api/label")
-				.then(response => {
-					this.labels = response.data.data.attributes.Titles
-				})
-
-			axios
-				.get(process.env.VUE_APP_DATABASE_URL +  "/api/tables", {
-					headers: { 
-						'Authorization': 'Bearer ' + this.jwt
-					}
-				})
-				.then(response => {
-					console.log(response.data)
-				})
+        .get(process.env.VUE_APP_DATABASE_URL +  "/api/users/me", {
+          headers: { 
+            'Authorization': 'Bearer ' + this.jwt
+          }
+        })
+        .then(response => {
+					this.labels = Object.keys(response.data.tables[0].donnees[0])
+					this.data = response.data.tables[0].donnees
+        })
 		},
 		computed: {
-      user: {
-        get(){
-          return store.state.user
-        }
+      user() {
+        return store.state.user
       },	
-			jwt: {
-        get(){
-          return store.state.jwt
-        }
-      },		
+			jwt() {
+				return store.state.jwt
+      },
+			charts()  {
+				return store.state.charts
+			},
 		},
 		methods: {
 			addChart: function() {
 				this.charts.push({
-					value_1: this.key_1,
-					value_2: this.key_2
+					value_1: Number(this.key_1),
+					value_2: Number(this.key_2)
 				})
+				store.commit('updateChart', this.charts)
 			},
 			deleteChart: function(i) {
-				this.charts.splice(i, 1);
+				this.charts.splice(i, 1)
+				store.commit('updateChart', this.charts)
 			}
 		}
 	}

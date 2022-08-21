@@ -30,7 +30,7 @@
           <div class="relative inline" 
             v-if="user">
               <button class="peer inline-block bg-indigo-500 py-2 px-4 rounded-md hover:rounded-b-none font-medium text-white hover:bg-opacity-75 cursor-pointer">
-                {{ userConnected.username }}
+                {{ user.username }}
               </button>
               <div class="rounded-b-md absolute right-0 hidden peer-hover:flex hover:flex w-full flex-col bg-white drop-shadow-lg">
                 <p class="inline-block bg-white py-2 px-4 font-medium text-indigo-600 hover:bg-indigo-50 cursor-pointer"
@@ -55,7 +55,6 @@
 
 <script>
   import store from '../store/store'
-	import axios from 'axios';
 
   export default {
     name: "AppHeader",
@@ -63,32 +62,17 @@
       return {
         navigation: [
           { name: 'Graphiques', href: '/' },
+          { name: 'Tableaux', href: '/tables' },
           { name: 'Statistiques', href: '/stats' }
-        ],
-        userConnected: {}
+        ]
       }
     },
-    mounted() {
-			axios
-        .get(process.env.VUE_APP_DATABASE_URL +  "/api/users/me", {
-          headers: { 
-            'Authorization': 'Bearer ' + this.jwt
-          }
-        })
-        .then(response => {
-          this.userConnected = response.data
-        })
-    },
     computed: {
-      user: {
-        get(){
-          return store.state.user
-        }
+      user() {
+        return store.state.user
       },
-      jwt: {
-        get(){
-          return store.state.jwt
-        }
+      jwt() {
+        return store.state.jwt
       },	
     },
     methods: {
@@ -97,7 +81,6 @@
       },
       logout() {
         store.commit('logout')
-        location.reload();
       }
     }
   }
