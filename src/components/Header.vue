@@ -23,7 +23,7 @@
           <p class="inline-block bg-white py-2 px-4 rounded-md font-medium text-indigo-600 hover:bg-indigo-50 cursor-pointer"
             v-if="!user" v-on:click="openForm('FormSignup')" >Sign up</p>
           <p class="inline-block bg-indigo-500 py-2 px-4 rounded-md font-medium text-white hover:bg-opacity-75 cursor-pointer"
-            v-if="user" v-on:click="openForm('FormData')">Ajouter une donnée</p>            
+            v-if="user" v-on:click="openForm('FormNewData')">Ajouter une donnée</p>            
 
             
 

@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 const state = {
   user: JSON.parse(window.localStorage.getItem('user')),
   charts: JSON.parse(window.localStorage.getItem('charts')),
-  jwt: window.localStorage.getItem('jwt')
+  jwt: window.localStorage.getItem('jwt'),
+  tableSelected: []
 }
 
 const mutations = {

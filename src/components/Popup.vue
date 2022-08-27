@@ -7,7 +7,7 @@
         <i  class="text-2xl cursor-pointer fa-solid fa-xmark"></i>
       </div>
       
-      <FormData v-if="formSelected == 'FormData'"></FormData>
+      <FormNewData v-if="formSelected == 'FormNewData'"></FormNewData>
       <FormSignin v-if="formSelected == 'FormSignin'"></FormSignin>
       <FormSignup v-if="formSelected == 'FormSignup'"></FormSignup>
     </div>
@@ -15,14 +15,14 @@
 </template>
 
 <script>
-  import FormData from './Forms/FormData';
+  import FormNewData from './Forms/FormNewData';
 	import FormSignin from './Forms/FormSignin';
 	import FormSignup from './Forms/FormSignup';
 
 	export default {
 		name: "AppPopup",
     components: {
-      FormData,
+      FormNewData,
       FormSignin,
       FormSignup
     },
